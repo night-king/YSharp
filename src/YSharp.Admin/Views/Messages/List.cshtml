@@ -1,0 +1,63 @@
+﻿@model PagedList<MessageViewModel>
+
+<div class="ibox">
+    <div class="ibox-content">
+        <div class="mail-box-header">
+            <form id="search-form" method="get" class="pull-right mail-search">
+                <div class="input-group">
+                    <input type="text" class="form-control input-sm" name="key" value="@this.Context.Request.Query["key"]" placeholder="Search">
+                    <div class="input-group-btn">
+                        <button type="submit" class="btn btn-sm btn-primary">
+                            Search
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <h2>
+                Inbox (@Model.TotalItemCount)
+            </h2>
+
+        </div>
+
+        <div class="mail-box table-responsive" style="padding:0;min-height:500px">
+            @{
+                var index = 1;
+                foreach (var m in Model.Results)
+                {
+                    <div class="ibox-content" style="border:0;border-bottom:1px solid #e7eaec">
+                        <div class="profile-image" style="width:80px;cursor:pointer">
+                            <img src="/img/avatar.png" class="img-circle circle-border" alt="profile" style="width:60px;height:60px">
+                        </div>
+                        <div >
+                                <b class="no-margins">
+                                    @m.SenderName
+                                </b>
+                                <br>
+                                <p>@m.CreateDate.ToString("yyyy-MM-dd HH:mm:ss")</p>
+                        </div>
+                        <p>@m.Content</p>
+                    </div>
+
+                    index++;
+                }
+            }
+
+        </div>
+        @if (Model.PageCount > 1)
+        {
+            <div class="panel-footer" style="padding-left:20px 0">
+                <center>
+                    <pager link-url="@(this.Context.Request.Path.Value)"
+                           page="Model.CurrentPage"
+                           page-size="Model.PageSize"
+                           total-items="Model.TotalItemCount"
+                           first-page-text="First"
+                           previous-page-text="Previous"
+                           last-page-text="Last"
+                           next-page-text="Next"></pager>
+                </center>
+            </div>
+        }
+
+    </div>
+</div>

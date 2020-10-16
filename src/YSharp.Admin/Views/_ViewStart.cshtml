@@ -1,0 +1,4 @@
+﻿@{
+    var style = this.Context.Request.Query["style"].FirstOrDefault();
+    Layout = !string.IsNullOrEmpty(style) && style.ToLower() == "dialog" ? "~/Views/Shared/_Layout_Dialog.cshtml" : "~/Views/Shared/_Layout.cshtml";
+}

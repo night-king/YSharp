@@ -1,0 +1,108 @@
+﻿@model UserViewModel
+
+<style>
+    .disabled-div {
+        pointer-events: none;
+    }
+</style>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-content">
+                <form class="form-horizontal" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <div class="col-lg-2 col-md-4 col-sm-4 control-label">
+                            <label asp-for="UserName"></label>
+                            <span class="text-danger">*</span>
+                        </div>
+                        <div class="col-lg-4 col-md-8 col-sm-8 ">
+                            <input asp-for="UserName" class="form-control" type="text" />
+                        </div>
+                        <div class="col-lg-6 col-md-4 col-sm-6">
+                            <span asp-validation-for="UserName" class="text-danger help-block m-b-none"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-2 col-md-4 col-sm-4 control-label">
+                            <label asp-for="Password"></label>
+                            <span class="text-danger">*</span>
+                        </div>
+                        <div class="col-lg-4 col-md-8 col-sm-8 ">
+                            <input asp-for="Password" type="text" class="form-control" />
+                        </div>
+                        <div class="col-lg-6 col-md-4 col-sm-6">
+                            <span asp-validation-for="Password" class="text-danger help-block m-b-none"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-2 col-md-4 col-sm-4 control-label">
+                            <label asp-for="Email"></label>
+                            <span class="text-danger">*</span>
+                        </div>
+                        <div class="col-lg-4 col-md-8 col-sm-8 ">
+                            <input asp-for="Email" class="form-control" type="text" />
+                        </div>
+                        <div class="col-lg-6 col-md-4 col-sm-6">
+                            <span asp-validation-for="Email" class="text-danger help-block m-b-none"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-2 col-md-4 col-sm-4 control-label">
+                            <label asp-for="PhoneNumber"></label>
+                            <span class="text-danger">*</span>
+                        </div>
+                        <div class="col-lg-4 col-md-8 col-sm-8 ">
+                            <input asp-for="PhoneNumber" class="form-control" type="text" />
+                        </div>
+                        <div class="col-lg-6 col-md-4 col-sm-6">
+                            <span asp-validation-for="PhoneNumber" class="text-danger help-block m-b-none"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-2 col-md-4 col-sm-4 control-label">
+                            <label asp-for="Name"></label>
+                            <span class="text-danger">*</span>
+                        </div>
+                        <div class="col-lg-4 col-md-8 col-sm-8 ">
+                            <input asp-for="Name" class="form-control" type="text" />
+                        </div>
+                        <div class="col-lg-6 col-md-4 col-sm-6">
+                            <span asp-validation-for="Name" class="text-danger help-block m-b-none"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-2 col-md-4 col-sm-4 control-label">
+                            <label asp-for="IsSuperAdmin"></label>
+                            <span class="text-danger">*</span>
+                        </div>
+                        <div class="col-lg-4 col-md-8 col-sm-8 ">
+                            <input asp-for="IsSuperAdmin" type="checkbox" />
+                        </div>
+                        <div class="col-lg-6 col-md-4 col-sm-6">
+                            <span asp-validation-for="IsSuperAdmin" class="text-danger help-block m-b-none"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-2 col-md-4 col-sm-4 control-label">
+                            <label asp-for="Role"></label>
+                        </div>
+                        <div class="col-lg-4 col-md-8 col-sm-8 ">
+                            <select asp-for="Role" asp-items="@ViewData["Roles"] as SelectList" class="form-control"></select>
+                        </div>
+                        <div class="col-lg-6 col-md-4 col-sm-6">
+                            <span asp-validation-for="Role" class="text-danger help-block m-b-none"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-2 col-md-4 col-sm-4 control-label">
+                        </div>
+                        <div class="col-lg-4 col-md-8 col-sm-8 ">
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

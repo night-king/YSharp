@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<menus xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <menu id="10" name="Home" url="/" icon="fa fa-home" left="true"> </menu>
+
+  <menu id="60" name="Settings" left="true" icon="fa fa-cog">
+    <menu id="6001" name="Roles" url="/Roles/List" left="true">
+      <menu id="600101" name="Create" url="/Roles/New" nid="false" style="dialog" width="600" height="500" toolbar="true"></menu>
+      <menu id="600102" name="Edit" url="/Roles/Edit"  nid="true" style="dialog" width="600" height="500" table="true"> </menu>
+      <menu id="600103" name="Delete" url="/Roles/Delete"  nid="true" style="dialog" width="600" height="350" table="true"> </menu>
+      <menu id="600104" name="Permission" url="/Roles/Permission"  nid="true" style="dialog"  width="800" height="600" table="true"> </menu>
+    </menu>
+    
+    <menu id="6003" name="Users" url="/Users/List" left="true">
+      <menu id="600301"  name="Create" url="/Users/New" nid="false" style="page" toolbar="true"></menu>
+      <menu id="600302"  name="Edit" url="/Users/Edit"  nid="true" style="page"  table="true"> </menu>
+      <menu id="600303"  name="Delete" url="/Users/Delete"  nid="true" style="dialog"  width="600" height="350" table="true"> </menu>
+      <menu id="600304"  name="Reset Password	" url="/Users/ResetPassword"  nid="true" style="dialog"  width="600" height="500" table="true"> </menu>
+      <menu id="600305"  name="Lock" url="/Users/Lock"  nid="true" style="dialog"  width="600" height="350" table="true"> </menu>
+      <menu id="600306"  name="UnLock" url="/Users/UnLock"  nid="true" style="dialog"  width="600" height="350" table="true"> </menu>
+      <menu id="600307"  name="Email" url="/Users/Email"  nid="true" style="dialog"  width="600" height="350" table="true" exUrls="/Users/Print"> </menu>
+    </menu>
+  </menu>
+  
+</menus>

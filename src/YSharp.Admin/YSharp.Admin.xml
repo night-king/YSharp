@@ -1,0 +1,118 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>YSharp.Admin</name>
+    </assembly>
+    <members>
+        <member name="T:YSharp.Admin.ApplicationDbInitializer">
+            <summary>
+            初始化数据库
+            </summary>
+        </member>
+        <member name="M:YSharp.Admin.ApplicationDbInitializer.Seed(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            
+            </summary>
+            <param name="builder"></param>
+        </member>
+        <member name="M:YSharp.Admin.Controllers.AccessLogsController.List(System.String,System.String,System.String,System.Int32,System.Int32,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="key"></param>
+            <param name="start"></param>
+            <param name="end"></param>
+            <param name="page"></param>
+            <param name="pageSize"></param>
+            <param name="ip"></param>
+            <returns></returns>
+        </member>
+        <member name="M:YSharp.Admin.Controllers.AccountController.Profile(System.String)">
+            <summary>
+            修改头像
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="P:YSharp.Admin.Controllers.BaseController.UserId">
+            <summary>
+            用户id
+            </summary>
+        </member>
+        <member name="P:YSharp.Admin.Controllers.BaseController.UserName">
+            <summary>
+            用户名
+            </summary>
+        </member>
+        <member name="M:YSharp.Admin.Controllers.ImagesController.List(System.Int32,System.Int32,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="page"></param>
+            <param name="pageSize"></param>
+            <param name="view"></param>
+            <returns></returns>
+        </member>
+        <member name="M:YSharp.Admin.Controllers.LoginLogsController.List(System.Int32,System.Int32,System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="page"></param>
+            <param name="pageSize"></param>
+            <param name="username"></param>
+            <param name="ip"></param>
+            <returns></returns>
+        </member>
+        <member name="M:YSharp.Admin.Controllers.MessagesController.List(System.String,System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="key"></param>
+            <param name="page"></param>
+            <param name="pageSize"></param>
+            <returns></returns>
+        </member>
+        <member name="M:YSharp.Admin.Controllers.RolesController.List(System.String,System.Int32,System.Int32)">
+            <summary>
+            查询
+            </summary>
+            <param name="key"></param>
+            <param name="page"></param>
+            <param name="pageSize"></param>
+            <returns></returns>
+        </member>
+        <member name="M:YSharp.Admin.Controllers.RolesController.New">
+            <summary>
+            创建
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:YSharp.Admin.Controllers.RolesController.Edit(System.String)">
+            <summary>
+            编辑
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:YSharp.Admin.Controllers.UsersController.List(System.String,System.Int32,System.Int32)">
+            <summary>
+            查询
+            </summary>
+            <param name="key"></param>
+            <param name="page"></param>
+            <param name="pageSize"></param>
+            <returns></returns>
+        </member>
+        <member name="M:YSharp.Admin.Controllers.UsersController.New">
+            <summary>
+            创建
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:YSharp.Admin.Controllers.UsersController.Edit(System.String)">
+            <summary>
+            编辑
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

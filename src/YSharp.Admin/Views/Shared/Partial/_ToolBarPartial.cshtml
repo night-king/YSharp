@@ -1,0 +1,113 @@
+﻿@using YSharp.Admin.Authorization;
+
+@{
+    if (!User.Identity.IsAuthenticated) { return; }
+    var url = this.Context.Request.Path.Value.ToLower();
+    var model = new MenuHelper(url, User).GetToolBar();
+    var current = model == null ? null : model.Current;
+    var buttons = model == null ? null : model.Buttons;
+    @if (current != null)
+    {
+        <div class="row wrapper white-bg page-heading">
+            <div class="col-lg-8 col-md-6 col-sm-6">
+                <h2 style="margin-top:10px;">@current.Title</h2>
+                @if (current.Action != "/" && current.Action != "/home" && current.Action != "/home/index")
+                {
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="/"> Home</a>
+                        </li>
+                        @{
+                            var navs = new List<MenuViewModel>();
+                            while (current != null)
+                            {
+                                navs.Add(current);
+                                current = current.Parent;
+                            }
+                            for (var i = navs.Count - 1; i >= 0; i--)
+                            {
+                                <li>
+                                    @if (navs[i].IsMustSelected)
+                                    {
+                                        <span>
+                                            <i class="@navs[i].Icon"></i> @navs[i].Title
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <a href="@navs[i].Action">
+                                            <i class="@navs[i].Action"></i> @navs[i].Title
+                                        </a>
+
+                                    }
+                                </li>
+                            }
+
+                        }
+                    </ol>
+                }
+            </div>
+            <div class="col-lg-4  col-md-6 col-sm-6" style="padding-top:20px;text-align:right">
+                @{
+                    if (buttons != null)
+                    {
+                        var styles = new string[] { "btn btn-sm btn-primary btn-outline" };
+                        var index = 0;
+                        foreach (var button in buttons)
+                        {
+                            var sindex = index > styles.Length - 1 ? 0 : index;
+                            var style = styles[sindex];
+                            if (!button.IsDisplayOnToolbar) { continue; }
+                            bool disabled = button.IsMustSelected;
+                            switch (button.Style)
+                            {
+                                case "page":
+                                    if (disabled)
+                                    {
+                                        <button class="@style" requireid="false" onclick="javascript:openPage(this,'@button.Action',true)">
+                                            @if (!string.IsNullOrEmpty(button.Icon))
+                                            {
+                                                <i class="@button.Icon"></i>
+                                            }@button.Text
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <button class="@style" role="button" requireid="false" onclick="javascript:openPage(this,'@button.Action',false)">
+                                            @if (!string.IsNullOrEmpty(button.Icon))
+                                            {
+                                                <i class="@button.Icon"></i>
+                                            }@button.Text
+                                        </button>
+                                    }
+                                    break;
+                                case "dialog":
+                                    if (disabled)
+                                    {
+                                        <button class="@style" role="button" requireid="false" onclick="javascript:openDialog(this,'@button.Text', '@button.Action?style=dialog', @button.Width, @button.Height, true)">
+                                            @if (!string.IsNullOrEmpty(button.Icon))
+                                            {
+                                                <i class="@button.Icon"></i>
+                                            } @button.Text
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <button class="@style" role="button" requireid="false" onclick="javascript:openDialog(this,'@button.Text', '@button.Action?style=dialog', @button.Width, @button.Height, false)">
+                                            @if (!string.IsNullOrEmpty(button.Icon))
+                                            {
+                                                <i class="@button.Icon"></i>
+                                            } @button.Text
+                                        </button>
+                                    }
+                                    break;
+                            }
+                            index++;
+                        }
+                    }
+
+                }
+            </div>
+        </div>
+    }
+}

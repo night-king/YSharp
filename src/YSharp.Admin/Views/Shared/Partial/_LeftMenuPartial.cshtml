@@ -1,0 +1,58 @@
+﻿@using YSharp.Admin.Authorization;
+
+@{
+    if (!User.Identity.IsAuthenticated) { return; }
+    var url = this.Context.Request.Path.Value.ToLower();
+    var model = new MenuHelper(url, User).GetLeftMenu();
+    if (model != null)
+    {
+        <ul class="nav metismenu" id="side-menu" style="">
+            @foreach (var menu in model.Items.Where(x => x.IsDisplayOnMenu = true))
+            {
+                var active = menu.IsActive && url != "/result" ? "active " : "";
+                <li class="nav-item dropdown @active">
+                    @if (string.IsNullOrEmpty(menu.Action) || menu.Action == "#")
+                    {
+                        <a href="javascript:void(0)" class="@active"><i class="@menu.Icon"></i> @menu.Text <span class="fa arrow"></span></a>
+                    }
+                    else
+                    {
+                        <a href="@menu.Action" class="@active"><i class="@menu.Icon"></i> @menu.Text</a>
+                    }
+                    @if (menu.Items != null && menu.Items.Where(x => x.IsDisplayOnMenu == true).Count() > 0)
+                    {
+                        <ul class="nav nav-second-level collapse">
+                            @foreach (var item in menu.Items.Where(x => x.IsDisplayOnMenu == true))
+                            {
+                                var pageActive = item.IsActive && url != "/result" ? "active " : "";
+                                var hasChildren = item.Items != null && item.Items.Where(x => x.IsDisplayOnMenu == true).Count() > 0;
+
+                                if (hasChildren == true)
+                                {
+                                    <li class="nav-item dropdown @pageActive">
+                                        <a href="#"><i class="@item.Icon"></i>@item.Text <span class="fa arrow"></span></a>
+                                        <ul class="nav nav-third-level collapse">
+                                            @foreach (var item1 in item.Items.Where(x => x.IsDisplayOnMenu == true))
+                                            {
+                                                var pageActive1 = item1.IsActive && url != "/result" ? "active " : "";
+                                                <li class="@pageActive1"><a href="@item1.Action" style="margin-left:10px">@item1.Text</a></li>
+                                            }
+                                        </ul>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="nav-item dropdown @pageActive">
+                                        <a href="@item.Action"><i class="@item.Icon"></i>@item.Text</a>
+                                    </li>
+                                }
+                            }
+                        </ul>
+                    }
+                </li>
+            }
+        </ul>
+    }
+}
+
+

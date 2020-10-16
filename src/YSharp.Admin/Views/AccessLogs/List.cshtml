@@ -1,0 +1,178 @@
+﻿@model PagedList<AccessLogViewModel>
+
+@section scripts {
+
+    <script>
+        $(function () {
+            $('.date-picker-container .input-group.date').datetimepicker({
+                format: 'DD/MM/YYYY HH:mm:ss',
+                useCurrent: false
+            });
+        });
+        function filterPage() {
+            $('#page').val($("#InputPageIndex").val());
+            $('#pageSize').val($("#InputPageSize").val());
+            $('#search-form').submit();
+        }
+    </script>
+}
+<div class="ibox">
+    <div class="ibox-content m-b-sm border-bottom">
+        <form class="form-horizontal" id="search-form">
+            <input type="hidden" id="pageSize" name="pageSize" value="@Model.PageSize" />
+            <input type="hidden" id="page" name="page" value="@Model.CurrentPage" />
+
+            <div class="row">
+                <div class="col-md-3 col-lg-3">
+                    <div class="form-group" style="margin:5px 0">
+                        <label class="control-label" for="username">Keyword </label>
+                        <input type="text" id="key" name="key" value="@this.Context.Request.Query["key"]" placeholder="" class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-3 col-lg-3">
+                    <div class="form-group" style="margin:5px 0">
+                        <label class="control-label" for="ip">IP </label>
+                        <input type="text" id="ip" name="ip" value="@this.Context.Request.Query["ip"]" placeholder="" class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-2">
+                    <div class="form-group date-picker-container" style="margin:5px 0">
+                        <label class="control-label" for="customerType">Start: </label>
+                        <div class="input-group date">
+                            <input type="text" id="start" name="start" autocomplete="off" class="form-control datetime-picker" value="@this.Context.Request.Query["start"]" />
+                            <span class="input-group-addon">
+                                <i class="glyphicon glyphicon-calendar"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-2">
+                    <div class="form-group date-picker-container" style="margin:5px 0">
+                        <label class="control-label" for="customerType">End: </label>
+                        <div class="input-group date">
+                            <input type="text" id="end" name="end" autocomplete="off" class="form-control datetime-picker" value="@this.Context.Request.Query["end"]" />
+                            <span class="input-group-addon">
+                                <i class="glyphicon glyphicon-calendar"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group" style="margin:5px 0">
+                        <button class="btn btn-primary" type="submit">Search</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="ibox-content">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-lg-2 col-md-3  col-sm-4">
+                        <i class="fa fa-external-link-square"></i>
+                        API Log
+                    </div>
+                    <div class="col-lg-10 col-md-9  col-sm-8" style="text-align:right">
+                        Total items: @Model.TotalItemCount , Page number:
+                        <select style="height: 27px;margin-top: -5px;margin-left:10px;min-width:50px" id="InputPageIndex" onchange="filterPage()">
+                            @for (int pi = 1; pi <= Model.PageCount; pi++)
+                            {
+                                if (Model.CurrentPage == pi)
+                                {
+                                    <option value="@pi" selected="selected">@pi</option>
+                                }
+                                else
+                                {
+                                    <option value="@pi">@pi</option>
+                                }
+                            }
+                        </select>
+                        , Page count:  @Model.PageCount  , Page size:
+                        <select style="height: 27px;margin-top: -5px;margin-left:10px;min-width:50px" id="InputPageSize" onchange="filterPage()">
+                            @foreach (var ps in new int[] { 10, 20, 50, 100 })
+                            {
+                                if (Model.PageSize == ps)
+                                {
+                                    <option value="@ps" selected="selected">@ps</option>
+                                }
+                                else
+                                {
+                                    <option value="@ps">@ps</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body table-responsive" style="padding:0;min-height:500px">
+                <table class="single-select-table table  table-hover">
+                    <thead>
+                        <tr class="active">
+                            <th>Name</th>
+                            <th>Method</th>
+                            <th>Http Status</th>
+                            <th>Time</th>
+                            <th>API Status</th>
+                            <th>Response</th>
+                            <th>Create Date</th>
+                            <th>Operation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var m in Model.Results)
+                        {
+                        <tr itemid="@m.Id">
+                            <td>@m.Url</td>
+                            <td>@m.RequestMethod</td>
+                            <td>@m.ResponseStatusCode</td>
+                            <td>@m.SpendMilliseconds<span>ms</span></td>
+                            <td>
+                                @if (!string.IsNullOrEmpty(m.ResponseBody))
+                                {
+                                    @if (m.ResponseBody.Contains("\"code\":\"00\""))
+                                    {
+                                        <span class="text-success">Success</span>
+
+                                    }
+                                    else
+                                    {
+                                        <span class="text-danger">Failed</span>
+                                    }
+                                }
+                            </td>
+                            <td>@m.ResponseBody</td>
+                            <td>@m.CreateDate.ToString("dd/MM/yyyy HH:mm:ss")</td>
+
+                            <td>
+                                <partial name="Partial/_TableMenuPartial"
+                                         model='new List<string> {
+                                            }' />
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+            @if (Model.PageCount > 1)
+            {
+                <div class="panel-footer" style="padding-left:20px 0">
+                    <center>
+                        <pager link-url="@(this.Context.Request.Path.Value)"
+                               page="Model.CurrentPage"
+                               page-size="Model.PageSize"
+                               total-items="Model.TotalItemCount"
+                               first-page-text="First"
+                               previous-page-text="Previous"
+                               last-page-text="Last"
+                               next-page-text="Next"></pager>
+                    </center>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="AdminBankAccountAPIViewModel.cs" />
+    <Compile Remove="PriceLockOrderAPIViewModel.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\YSharp.Domain\YSharp.Domain.csproj" />
+    <ProjectReference Include="..\YSharp.SDK\YSharp.SDK.csproj" />
+  </ItemGroup>
+
+</Project>

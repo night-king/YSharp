@@ -1,0 +1,106 @@
+﻿@using YSharp.Admin.Authorization;
+
+@{
+    if (!User.Identity.IsAuthenticated) { return; }
+    <div style="padding-right:20px;margin:-4px">
+        @{ var filters = Model == null ? new List<string>() : Model as List<string>;
+            var url = this.Context.Request.Path.Value.ToLower();
+            var model = new MenuHelper(url, User).GetTableMenu(filters);
+            if (model != null && model.Items != null && model.Items.Count > 0)
+            {
+                var styles = new string[] { "btn btn-sm btn-primary btn-outline" };
+                var index = 0;
+                var sindex = 0;
+                var style = "";
+                if (model.Items.Count > 3)
+                {
+                    foreach (var button in model.Items.Take(2))
+                    {
+
+                        sindex = index > styles.Length - 1 ? 0 : index;
+                        style = styles[sindex];
+                        var isMustSelected = button.IsMustSelected ? 1 : 0;
+                        var isOpenNewPage = button.IsOpenNew ? 1 : 0;
+
+                        switch (button.Style)
+                        {
+                            case "page"://page
+                                <a class="@style" role="button" requireid="true" onclick="openPage(this,'@button.Action',@isMustSelected,@isOpenNewPage)" style="cursor:pointer;margin-bottom:0;padding:3px 8px;font-size:0.9em">
+                                    @Html.Raw(button.Text)
+                                </a>
+                                break;
+                            case "dialog"://Dialog
+
+                                <a class="@style" role="button" requireid="true" onclick="openDialog(this,'@button.Title', '@button.Action?style=dialog', @button.Width, @button.Height, @isMustSelected)" style="cursor:pointer;margin-bottom:0;padding:3px 8px;font-size:0.9em">
+                                    @Html.Raw(button.Text)
+                                </a>
+                                break;
+
+                        }
+                        index++;
+                    }
+                    sindex = index > styles.Length - 1 ? 0 : index;
+                    style = styles[sindex];
+                    <div class="btn-group">
+                        <button data-toggle="dropdown" class="@style dropdown-toggle" aria-expanded="true" style="cursor:pointer;margin-bottom:0;padding:3px 8px;font-size:0.9em">More <span class="caret"></span></button>
+                        <ul class="dropdown-menu pull-right" style="min-width:0px;">
+                            @foreach (var button in model.Items.Skip(2))
+                            {
+                                sindex = index > styles.Length - 1 ? 0 : index;
+                                style = styles[sindex];
+                                var isMustSelected = button.IsMustSelected ? 1 : 0;
+                                var isOpenNewPage = button.IsOpenNew ? 1 : 0;
+                                <li>
+                                    @switch (button.Style)
+                                    {
+                                        case "page"://page
+                                            <a role="button" requireid="true" onclick="openPage(this,'@button.Action',@isMustSelected,@isOpenNewPage)" style="cursor:pointer;margin-bottom:0;padding:3px 8px;font-size:0.9em">
+                                                @Html.Raw(button.Text)
+                                            </a>
+                                            break;
+                                        case "dialog"://Dialog
+
+                                            <a role="button" requireid="true" onclick="openDialog(this,'@button.Title', '@button.Action?style=dialog', @button.Width, @button.Height, @isMustSelected)" style="cursor:pointer;margin-bottom:0;padding:3px 8px;font-size:0.9em">
+                                                @Html.Raw(button.Text)
+                                            </a>
+                                            break;
+
+                                    }
+                                </li>
+                                index++;
+                            }
+
+                        </ul>
+                    </div>
+                }
+                else
+                {
+                    foreach (var button in model.Items.Take(3))
+                    {
+                        sindex = index > styles.Length - 1 ? 0 : index;
+                        style = styles[sindex];
+                        var isMustSelected = button.IsMustSelected ? 1 : 0;
+                        var isOpenNewPage = button.IsOpenNew ? 1 : 0;
+
+                        switch (button.Style)
+                        {
+                            case "page"://page
+                                <a class="@style" role="button" requireid="true" onclick="openPage(this,'@button.Action',@isMustSelected,@isOpenNewPage)" style="cursor:pointer;margin-bottom:0;padding:3px 8px;font-size:0.9em">
+                                    @Html.Raw(button.Text)
+                                </a>
+                                break;
+                            case "dialog"://Dialog
+
+                                <a class="@style" role="button" requireid="true" onclick="openDialog(this,'@button.Title', '@button.Action?style=dialog', @button.Width, @button.Height, @isMustSelected)" style="cursor:pointer;margin-bottom:0;padding:3px 8px;font-size:0.9em">
+                                    @Html.Raw(button.Text)
+                                </a>
+                                break;
+
+                        }
+                        index++;
+                    }
+                }
+            }
+        }
+    </div>
+}

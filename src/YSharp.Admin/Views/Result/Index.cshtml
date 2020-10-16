@@ -1,0 +1,93 @@
+﻿@model ResultViewModel
+@{
+    if (Model.Style != null && Model.Style.ToLower() == "dialog")
+    {
+        Layout = "~/Views/Shared/_Layout_Dialog.cshtml";
+    }
+}
+<input type="hidden" id="returnUrl" value="@Model.ReturnUrl" />
+<div class="jumbotron" style="background-color:#fff">
+    @if (Model.Succeeded)
+    {
+        <div class="profile-image">
+            <img src="~/img/success.svg" />
+        </div>
+
+        <div class="profile-info">
+            <div class="">
+                <div>
+                    <h2 class="no-margins">
+                        @Model.Title
+                    </h2>
+                    <h4>@Model.Message</h4>
+                    <small>
+                        The page will redirect automatically after <span class="last-second" v="2" style="color:rebeccapurple">2</span> seconds...
+                    </small>
+                </div>
+            </div>
+        </div>
+
+    }
+    else
+    {
+
+        <div class="profile-image">
+            <img src="~/img/failed.svg" />
+        </div>
+        <div class="profile-info">
+            <div class="">
+                <div>
+                    <h2 class="no-margins">
+                        @Model.Title
+                    </h2>
+                    <h4>@Model.Message</h4>
+                    <small>
+                        <p> <button type="button" onclick="javascript: confirm();" class="btn btn-danger">Confirm</button></p>
+                    </small>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+@section scripts {
+    <script>
+        $(function () {
+            var rest = parseInt($(".last-second").attr("v"));
+            var t = setInterval(function () {
+                rest--;
+                if (rest <= 0) {
+                    clearInterval(t);
+                    var returnUrl = $("#returnUrl").val();
+                    if (window.parent) {
+                        if (returnUrl) {
+                            window.close();
+                            window.parent.location.href = returnUrl;
+                        } else {
+                            window.close();
+                            window.parent.location.reload();
+                        }
+                    } else {
+                        window.location.href = returnUrl ? returnUrl : "/";
+                    }
+                }
+                $(".last-second").text(rest);
+            }, 1000);
+        });
+
+        function confirm() {
+            var returnUrl = $("#returnUrl").val();
+            if (window.parent) {
+                if (returnUrl) {
+                    window.close();
+                    window.parent.location.href = returnUrl;
+                } else {
+                    window.close();
+                    window.parent.location.reload();
+                }
+            } else {
+                window.location.href = returnUrl ? returnUrl : "/";
+            }
+        }
+    </script>
+}

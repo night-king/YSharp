@@ -1,0 +1,183 @@
+﻿@model List<RolePermissionViewModel>
+@{
+    var menus = ViewData["Menus"] as IEnumerable<MenuViewModel>;
+}
+<table class="single-select-table table table-condensed table-striped table-responsive">
+    <thead>
+        <tr>
+            <td colspan="5" style="text-align:right">
+                <form id="form1" method="post">
+                    <input type="hidden" id="Id" name="Id" value="@this.Context.Request.Query["Id"]" />
+                    <div id="inputcols"></div>
+                    <button type="button" id="btn-submit" class="btn btn-primary" role="button">Save</button>
+                </form>
+            </td>
+        </tr>
+    </thead>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>No</th>
+            <th>Link</th>
+            <th style="width:100px;padding:4px">
+                <div class="checkbox-custom checkbox-inline">
+                    <input type="checkbox" id="checkbox-all" />
+                    <label for="inline-checkbox3">Check All</label>
+                </div>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int sum = 0;
+            int no = 1;
+            foreach (var menu in menus)
+            {
+                <tr itemid="@menu.Id">
+                    <td>
+                        @menu.Text
+                    </td>
+                    <td>@no</td>
+                    <td><a href="@menu.Action">@menu.Action</a> </td>
+                    <td style="padding:4px">
+                        <div class="checkbox-custom checkbox-inline">
+                            @if (Model.Any(x => x.PermissionId == menu.Id))
+                            {
+                                <input type="checkbox" class="checkbox" pid="@menu.Id" itemid="@("["+menu.Id+"]")" name="Menu" isckecked="true" checked />
+                            }
+                            else
+                            {
+                                <input type="checkbox" class="checkbox" pid="@menu.Id" itemid="@("["+menu.Id+"]")" name="Menu" isckecked="false" />
+                            }
+                            <label for="inline-checkbox3"></label>
+                        </div>
+                    </td>
+                </tr>
+                var pages = menu.Items;
+                if (pages != null && pages.Count() > 0)
+                {
+                    int no2 = 1;
+                    foreach (var pg in pages)
+                    {
+                        <tr itemid="@pg.Id">
+                            <td style="padding-left:50px">
+                                @pg.Text
+                            </td>
+                            <td><span>@no</span>-<span>@no2</span></td>
+                            <td><a href="@pg.Action">@pg.Action</a></td>
+                            <td style="padding:4px">
+                                <div class="checkbox-custom checkbox-inline">
+                                    @if (Model.Any(x => x.PermissionId == pg.Id))
+                                    {
+                                        <input type="checkbox" class="checkbox" pid="@pg.Id" itemid="@("["+pg.Id+"]")" fatherid="@("["+menu.Id+"]")" name="Menu" isckecked="true" checked />
+                                    }
+                                    else
+                                    {
+                                        <input type="checkbox" class="checkbox"  pid="@pg.Id" itemid="@("["+pg.Id+"]")" fatherid="@("["+menu.Id+"]")" name="Menu" isckecked="false" />
+                                    }
+                                    <label for="inline-checkbox3"></label>
+                                </div>
+                            </td>
+                        </tr>
+                        var buttons = pg.Items;
+                        if (buttons != null && buttons.Count() > 0)
+                        {
+                            int no3 = 1;
+                            foreach (var button in buttons)
+                            {
+                                <tr itemid="@button.Id">
+                                    <td style="padding-left:90px">
+                                        @button.Text
+                                    </td>
+                                    <td><span>@no</span>-<span>@no2</span>-<span>@no3</span></td>
+                                    <td><a href="@button.Action">@button.Action</a></td>
+                                    <td style="padding:4px">
+                                        <div class="checkbox-custom checkbox-inline">
+                                            @if (Model.Any(x => x.PermissionId == button.Id))
+                                            {
+                                                <input type="checkbox" class="checkbox"  pid="@button.Id" itemid="@("["+button.Id+"]")" fatherid="@("["+menu.Id+"]") @("["+pg.Id+"]")" name="Menu" isckecked="true" checked />
+                                            }
+                                            else
+                                            {
+                                                <input type="checkbox" class="checkbox"  pid="@button.Id" itemid="@("["+button.Id+"]")" fatherid="@("["+menu.Id+"]") @("["+pg.Id+"]")" name="Menu" isckecked="false" />
+                                            }
+                                            <label for="inline-checkbox3"></label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                var subButtons = button.Items;
+                                if (subButtons != null && subButtons.Count() > 0)
+                                {
+                                    int no4 = 1;
+                                    foreach (var subButton in subButtons)
+                                    {
+                                        <tr itemid="@subButton.Id">
+                                            <td style="padding-left:130px">
+                                                @subButton.Text
+                                            </td>
+                                            <td><span>@no</span>-<span>@no2</span>-<span>@no3</span>-<span>@no4</span></td>
+                                            <td><a href="@subButton.Action">@subButton.Action</a></td>
+                                            <td style="padding:4px">
+                                                <div class="checkbox-custom checkbox-inline">
+                                                    @if (Model.Any(x => x.PermissionId == subButton.Id))
+                                                    {
+                                                        <input type="checkbox" class="checkbox"  pid="@subButton.Id" itemid="@("["+subButton.Id+"]")" fatherid="@("["+menu.Id+"]") @("["+pg.Id+"]") @("["+button.Id+"]")"  name="Menu" isckecked="true" checked />
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="checkbox" class="checkbox"  pid="@subButton.Id" itemid="@("["+subButton.Id+"]")" fatherid="@("["+menu.Id+"]") @("["+pg.Id+"]") @("["+button.Id+"]")"  name="Menu" isckecked="false" />
+                                                    }
+                                                    <label for="inline-checkbox3"></label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        no4++; sum++;
+                                    }
+                                }
+
+                                no3++; sum++;
+                            }
+                        }
+                        no2++; sum++;
+                    }
+                }
+                no++; sum++;
+            }
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="5" style="text-align:right;">
+                Total Count: @sum
+            </td>
+        </tr>
+    </tfoot>
+</table>
+
+<script>
+    $(function () {
+        $("#btn-submit").click(function () {
+            $('#inputcols').empty();
+            $(".checkbox[isckecked=true]").each(function (i, item) {
+                $('#inputcols').append('<input type="hidden" name="Menu" value="' + $(item).attr("pid") + '">');
+            });
+            $('#form1').submit();
+        });
+        $("#checkbox-all").click(function () {
+            $(".checkbox").prop("checked", this.checked).attr("isckecked", this.checked);
+        });
+        $(".checkbox").click(function () {
+            var itemid = $(this).attr("itemid");
+            $(this).attr("isckecked", this.checked);
+            $(".checkbox[fatherid*='" + itemid + "']").prop("checked", this.checked).attr("isckecked", this.checked);
+            if (this.checked) {
+                var fatherid = $(this).attr("fatherid");
+                if (fatherid) {
+                    $("input[itemid='" + fatherid + "']:eq(0)").prop("checked", this.checked)
+                }
+            }
+        });
+    });
+
+</script>
+

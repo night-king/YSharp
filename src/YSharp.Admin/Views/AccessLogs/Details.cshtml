@@ -1,0 +1,42 @@
+﻿@model AccessLogViewModel
+<div class="ibox">
+    <div class="ibox-title" style="border:0">
+        <h5>Request</h5>
+    </div>
+    <div class="ibox-content">
+        <p>
+            <label>Url:</label>   @Model.Url
+        </p>
+        <p>
+            <label>Absolutely Url:</label>  @Model.AbsolutelyUrl
+        </p>
+        <p>
+            <label>Method :</label>  @Model.RequestMethod
+        </p>
+        <p>
+            <label> Content-Type:</label>  @Model.RequestContentType
+        </p>
+        <div>
+            <textarea style="width:100%; height:200px">
+                    @Model.RequestBody.Trim()
+</textarea>
+
+        </div>
+    </div>
+</div>
+<div class="ibox">
+    <div class="ibox-title" style="border:0">
+        <h5>Response</h5>
+    </div>
+    <div class="ibox-content">
+        <p>
+            <label> Content-Type:</label> @Model.ResponseContentType
+        </p>
+        <div>
+            <textarea style="width:100%; height:200px">
+                    @Model.ResponseBody.Trim()
+</textarea>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>aliyun_net_sdk_dm_net_standard</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\aliyun-net-sdk-core-net-standard\aliyun-net-sdk-core.csproj" />
+  </ItemGroup>
+
+</Project>

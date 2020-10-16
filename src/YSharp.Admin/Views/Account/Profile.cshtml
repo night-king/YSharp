@@ -1,0 +1,87 @@
+﻿@model UserProfileViewModel
+<style>
+    .upload-file {
+        opacity: 0;
+        filter: alpha(opacity=0);
+        height: 100px;
+        width: 100px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 9;
+    }
+</style>
+<form enctype="multipart/form-data" id="uploadAvatarForm" method="post" action="/Account/Profile?id=@(new Random().Next(100000))">
+    <div class="row animated fadeInRight" style="background-color:#fff">
+        <div class="col-md-12">
+            <div class="ibox">
+                <div class="ibox-content" style="border:0">
+                    <div class="profile-image" style="width:100px;cursor:pointer">
+                        <input type="file" id="uploadAvatarInput" name="avatar" class="upload-file" onchange="submitForm();" />
+                        @if (string.IsNullOrEmpty(Model.User.AvatarUrl))
+                        {
+                            <img src="~/img/avatar.png" class="img-circle circle-border" alt="profile">
+                        }
+                        else
+                        {
+                            <img src="@Model.User.AvatarUrl" class="img-circle circle-border" alt="profile">
+                        }
+                        <div class="m-t-xsd" style="text-align: right;margin-top: -10px;opacity: .8;" onclick="uploadFile()">
+                            <i class="fa fa-pencil-square"></i>
+                        </div>
+                    </div>
+                    <div class="profile-info">
+                        <div style="margin-top:20px">
+                            <h2 class="no-margins">
+                                @Model.User.Name
+                            </h2>
+                            <br />
+                            <p>@Model.User.UserName</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ibox">
+                <div class="ibox-content" style="border:0">
+                    @if (Model.LoginLogs != null && Model.LoginLogs.Count() > 0)
+                    {
+                        <table class="table  table-hover table-bordered">
+
+                            <thead>
+                                <tr>
+                                    <th colspan="3"><h2>Login Logs</h2></th>
+                                </tr>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Location</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var m in Model.LoginLogs)
+                                {
+                                    <tr>
+                                        <td>@m.CreateDate.ToString("yyyy-MM-dd")</td>
+                                        <td>@(m.IsSuccess?"Success":"Failed")</td>
+                                        <td>@m.Location</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</form>
+
+<script>
+    function uploadFile() {
+        $('#uploadAvatarInput').click();
+    }
+    function submitForm() {
+        $('#uploadAvatarForm').submit();
+    }
+</script>

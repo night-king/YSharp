@@ -1,0 +1,48 @@
+﻿@model UserViewModel
+@{
+    Layout = "~/Views/Shared/_Layout_Empty.cshtml";
+    ViewBag.Title = Model.Id + ".pdf";
+}
+
+<div class="col-xs-12">
+    <div class="row">
+        <br />
+        <p>
+            <h4>
+                Dear Valued Customer,
+            </h4>
+        </p>
+        <p>
+            We are pleased to confirm your account details below,
+        </p>
+        <br />
+        <table>
+            <tr>
+                <td>
+                    Login user name: @Model.UserName
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Email address: @Model.Email
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    Date account opened: @(Model.CreateDate.ToString("dd/MM/yyyy"))
+                </td>
+            </tr>
+        </table>
+        <br />
+        <p>
+            We will do our best to provide the best service to you,<br />
+            Thank you for choosing YSharp.
+        </p>
+        <br />
+        <p>
+            Regards,<br />
+            China Forex LTD.
+        </p>
+    </div>
+</div>

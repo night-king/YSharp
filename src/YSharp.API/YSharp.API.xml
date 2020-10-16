@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>YSharp.API</name>
+    </assembly>
+    <members>
+        <member name="T:YSharp.API.ApplicationDbInitializer">
+            <summary>
+            初始化数据库
+            </summary>
+        </member>
+        <member name="M:YSharp.API.ApplicationDbInitializer.Seed(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            
+            </summary>
+            <param name="builder"></param>
+        </member>
+    </members>
+</doc>

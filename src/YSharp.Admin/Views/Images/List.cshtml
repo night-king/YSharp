@@ -1,0 +1,138 @@
+﻿@model PagedList<ImageViewModel>
+
+@section scripts {
+
+    <script>
+        function filterPage() {
+            $('#page').val($("#InputPageIndex").val());
+            $('#pageSize').val($("#InputPageSize").val());
+            $('#search-form').submit();
+        }
+        function filterView() {
+            $('#view').val($("#InputSize").val());
+            $('#search-form').submit();
+        }
+    </script>
+}
+<div class="ibox">
+    <div class="ibox-content">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-lg-2 col-md-3  col-sm-4">
+                        <i class="fa fa-external-link-square"></i>
+                        Image List
+                    </div>
+                    <div class="col-lg-10 col-md-9  col-sm-8" style="text-align:right">
+                        Total items: @Model.TotalItemCount , Page number:
+                        <select style="height: 27px;margin-top: -5px;margin-left:10px;min-width:50px" id="InputPageIndex" onchange="filterPage()">
+                            @for (int pi = 1; pi <= Model.PageCount; pi++)
+                            {
+                                if (Model.CurrentPage == pi)
+                                {
+                                    <option value="@pi" selected="selected">@pi</option>
+                                }
+                                else
+                                {
+                                    <option value="@pi">@pi</option>
+                                }
+                            }
+                        </select>
+                        , Page count:  @Model.PageCount  , Page size:
+                        <select style="height: 27px;margin-top: -5px;margin-left:10px;min-width:50px" id="InputPageSize" onchange="filterPage()">
+                            @foreach (var ps in new int[] { 10, 20, 50, 100 })
+                            {
+                                if (Model.PageSize == ps)
+                                {
+                                    <option value="@ps" selected="selected">@ps</option>
+                                }
+                                else
+                                {
+                                    <option value="@ps">@ps</option>
+                                }
+                            }
+                        </select>
+                        Views:
+                        <select style="height: 27px;margin-top: -5px;margin-left:10px;min-width:50px" id="InputSize" onchange="filterView()">
+                            @foreach (var ps in new string[] { "small", "medium", "large" })
+                            {
+                                if (this.Context.Request.Query["view"] == ps.ToString())
+                                {
+                                    <option value="@ps" selected="selected">@ps</option>
+                                }
+                                else
+                                {
+                                    <option value="@ps">@ps</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body table-responsive" style="padding:0;min-height:500px">
+                @{
+                    var width = "200px";
+                    var view = this.Context.Request.Query["view"];
+                    switch (view)
+                    {
+                        case "medium":
+                            width = "400px";
+                            break;
+                        case "large":
+                            width = "800px";
+                            break;
+                        default:
+                            break;
+                    }
+                    var index = 1;
+                    foreach (var file in Model.Results)
+                    {
+                        <div class="social-avatar" style="display:block;overflow:auto;border-bottom:1px solid #e7eaec;">
+                            <a href="@file.AbsolutePath" class="pull-left" target="_blank">
+                                <img alt="image" class="img-responsive" style="width:@width;height:auto;" src="@file.AbsolutePath">
+
+                            </a>
+                            <div class="media-body">
+                                <div>
+                                    <p><h2>[@index] @file.FileName</h2> </p>
+                                </div>
+                                <div><p><b> Date:</b> @file.CreateDate.ToString("dd/MM/yyyy HH:mm:ss")</p></div>
+                                <div><p><b> Size:</b> @((file.Size/1024).ToString("f0")+"kb")</p></div>
+                                <div>
+                                    <p>
+                                        <b>ID:</b> @file.Id
+                                    </p>
+                                </div>
+                                <div>
+                                    <p>
+                                        <a class="btn btn-sm btn-danger" role="button" requireid="false" onclick="openDialog(this,'Delete', '/Images/Delete?id=@file.Id&style=dialog', 600, 350, 1)" style="cursor:pointer;margin-bottom:0;width:100px">
+                                            Delete
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        index++;
+
+                    }
+                }
+            </div>
+            @if (Model.PageCount > 1)
+            {
+                <div class="panel-footer" style="padding-left:20px 0">
+                    <center>
+                        <pager link-url="@(this.Context.Request.Path.Value)"
+                               page="Model.CurrentPage"
+                               page-size="Model.PageSize"
+                               total-items="Model.TotalItemCount"
+                               first-page-text="First"
+                               previous-page-text="Previous"
+                               last-page-text="Last"
+                               next-page-text="Next"></pager>
+                    </center>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
